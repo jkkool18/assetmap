@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>NYC Community Asset Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="stylesheet" href="https://bootswatch.com/united/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="https://bootswatch.com/assets/css/bootswatch.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://bootswatch.com/bower_components/html5shiv/dist/html5shiv.js"></script>
+    <script src="https://bootswatch.com/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<!-- Header -->
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">NYC Community Asset Map</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+
+
+    <!-- Search Form -->
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="well bs-component">
+                    <form class="form-horizontal" action="maptop.html#r" method="get">
+                        <fieldset>
+                            <legend>Search</legend>
+                            <div class="form-group">
+                                <label for="borough" class="col-lg-2 control-label">Borough</label>
+
+                                <div class="col-lg-10">
+                                    <select class="form-control" id="borough" name="b">
+                                        <option value="">All</option>
+                                    </select>
+                                    <br>
+                                </div>
+                                <label for="category" class="col-lg-2 control-label">Category</label>
+
+                                <div class="col-lg-10">
+                                    <select class="form-control" id="category" name="c">
+                                        <option value="">All</option>
+                                    </select>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <button type="reset" class="btn btn-default">Clear</button>
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <a name="r"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Map -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Map</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="bs-component">
+                <div class="panel panel-default">
+                    <div class="panel-body" id="map" style="height:500px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Asset List -->
+    <div class="bs-docs-section" style="margin-top:20px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Results</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <ul class="list-group" id="list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <br><br><br><br><br>
+
+        <!-- Add New Form -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            Have a suggestion for a Community Asset? Great! <br>Please fill out our
+                            <a target="_blank" href="https://docs.google.com/forms/d/1gHeX6bpaXYxXM0v9x14eMaG7shL_ciUwZY874u3lCTo/viewform">Suggest a Community Asset Form</a>.
+                            <br><br>
+                            For Demo Purposes: <a href="https://docs.google.com/spreadsheets/d/1MxC6S6qP7_cCOZXcN6nwu-BWB8R9aWJN43WaGa6AE8k/edit?usp=sharing" target="_blank">Google Spreadsheet with Source Data</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://bootswatch.com/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<!-- Utility Methods -->
+<script>
+function queryStringToObject() {
+    //copy-pasted from http://www.developerdrive.com/2013/08/turning-the-querystring-into-a-json-object-using-javascript/
+    var pairs = location.search.slice(1).split('&');
+    var result = {};
+    pairs.forEach(function(pair) {
+        pair = pair.split('=');
+        if (pair[0] == '') return;
+        result[pair[0]] = decodeURIComponent(pair[1] || '').replace(/\+/g,' ');
+    });
+    return JSON.parse(JSON.stringify(result));
+}
+</script>
+
+
+<!-- Initialization Script -->
+<script>
+var queryParams = queryStringToObject(); // Load query parameters into an object for easy access
+
+
+function afterJsApiLoad() {
+  var query = new google.visualization.Query('https://docs.google.com/spreadsheet/ccc?key=1MxC6S6qP7_cCOZXcN6nwu-BWB8R9aWJN43WaGa6AE8k&usp=drive_web&gid=0#');
+  query.send(afterQueryResponse);
+}
+
+// Load the needed google packages and callback
+google.load("visualization", '1', {packages:['table', 'map']});
+google.setOnLoadCallback(afterJsApiLoad);
+
+var data;
+function afterQueryResponse(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+
+  data = response.getDataTable();
+  fixDataTableFormatting(data);
+  render();
+}
+
+function fixDataTableFormatting(data) {
+    // Set the column labels to the first row values and remove the first row
+    for (var col in data.getNumberOfColumns()) {
+        columnName = data.getValue(0, col);
+        data.setColumnLabel(col, columnName);
+    }
+    data.removeRow(0);
+}
+</script>
+
+<!-- Model Code -->
+<script>
+function getFilteredDataView() {
+    if (!queryParams.b && !queryParams.c) {
+        return getDefaultDataView();
+    }
+
+    var filters = [];
+    if (queryParams.b) {
+        filters.push({column:0,value:queryParams.b});
+    }
+    if (queryParams.c) {
+        filters.push({column:1,value:queryParams.c});
+    }
+
+    var view = new google.visualization.DataView(data);
+    view.setRows(view.getFilteredRows(filters));
+    return view;
+}
+
+function getDefaultDataView() {
+    // Return a data view with a single entry for the TFA office
+    // This is used in cases where there are no search queries set
+    var defaultData = new google.visualization.DataTable();
+    defaultData.addColumn('string', 'Burough');
+    defaultData.addColumn('string', 'Category');
+    defaultData.addColumn('string', 'Name');
+    defaultData.addColumn('string', 'Description');
+    defaultData.addColumn('string', 'Address');
+    defaultData.addColumn('string', 'Website');
+    defaultData.addRow(['Manhattan',
+                        'Education',
+                        'Teach For America',
+                        'Teach For America is part of a national teacher corps focused on raising student achievement in public schools.',
+                        '25 Broadway, New York, NY',
+                        'https://www.teachforamerica.org'
+                        ]);
+    return new google.visualization.DataView(defaultData);
+}
+
+function getMapDataView() {
+    var view = getFilteredDataView();
+    view.setColumns([4,2]);
+    return view;
+}
+</script>
+
+
+
+
+<!-- View-Controller Rendering Code -->
+<script>
+function render() {
+    renderBoroughs();
+    renderCategories();
+    renderList();
+    renderMap();
+}
+
+function renderBoroughs() {
+    var boroughs = data.getDistinctValues(0);
+    var boroughSelect = $('#borough');
+    boroughs.forEach(function(b) { if (b=="All") return; boroughSelect.append('<option value="' + b + '">' + b + '</option>'); });
+    if (queryParams.b) {
+        $('#borough option[value="'+queryParams.b+'"]').prop('selected',true);
+    }
+}
+
+function renderCategories() {
+    var categories = data.getDistinctValues(1);
+    var categoriesSelect = $('#category');
+    categories.forEach(function(c) { categoriesSelect.append('<option value="' + c + '">' + c + '</option>'); });
+    if (queryParams.c) {
+        $('#category option[value="'+queryParams.c+'"]').prop('selected',true);
+    }
+}
+
+function renderList() {
+    var view = getFilteredDataView();
+    if (view.getNumberOfRows() == 0) {
+        $('#list').append("<li class='list-group-item'>No Results.</li>");
+        return;
+    }
+    view.getSortedRows(2).forEach(function(rowIndex) {
+        var borough = view.getValue(rowIndex, 0);
+        var category = view.getValue(rowIndex, 1);
+        var name = view.getValue(rowIndex, 2);
+        var description = view.getValue(rowIndex, 3);
+        var address = view.getValue(rowIndex, 4);
+        var url = view.getValue(rowIndex, 5);
+
+        var markup = "<li class='list-group-item'>"
+                    + "<h4>"
+                        + "<a href='" + url + "' target='_blank'>"
+                            + name
+                        + "</a>"
+                    + "</h4>"
+                    + (address || '') + "<br>"
+                    + borough + " | " + category + "<br><br>"
+                    + (description || '')
+                    + "</li>";
+        $('#list').append(markup);
+    });
+}
+
+function renderMap() {
+    var mapData = getMapDataView();
+    if (mapData.getNumberOfRows() == 0) {
+        $('#map').append("No Results.");
+        return;
+    }
+    var map = new google.visualization.Map(document.getElementById('map'));
+    var options = {
+        showTip: true,
+        zoomLevel:11,
+        mapType: 'normal'
+    }
+    map.draw(mapData, options);
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+v4 TODO
+
+
+v4
+- Search-by-zipcode
+- Map only first 25 items
+- Multi-select borough and category search
+
+v3.1
+- Rebuild Google Form
+- Add Link to the Google Spreadsheet
+- Default to TFA office when no filters are selected so map shows
+- Change bootswatch theme
+- Add map-on-top flavor
+
+v3
+- Load Data
+- Initialize buroughs
+- Initialize categories
+- Populate List Results
+- Populate Map Results
+- Switch to non-sat
+- Fix zoom
+- Add New Form
+- Have burough and category drop-downs default to selected search
+- Jump to results after search is selected
+- Remove <> Arrows
+- List - state when there are no search results
+- Map - don't render when there's no data
+- Fix bootstrap maximized window squeezed layout
+- Update Google Form with NYC-specific data
+
+v2
+- Format and clean up NYC data
+- Update the GDoc with NYC sample data (20 rows)
+- Bring in Bootstrap via BootSwatch
+- Mock up page without data
+- Search form submission with buroughs and categories
+
+v1
+- Basic POC of category filtering, updating map and table, accessing GSpreadsheet data directly
