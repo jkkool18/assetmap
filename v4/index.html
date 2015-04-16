@@ -382,7 +382,7 @@ function renderMap() {
 
     var options = {
         showTip: true,
-        zoomLevel:11,
+        zoomLevel:(queryParams.z) ? 14 : 11,
         mapType: 'normal'
     }
     var map = new google.visualization.Map(document.getElementById('map'));
