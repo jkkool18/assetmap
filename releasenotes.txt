@@ -1,3 +1,9 @@
+TODO
+
+v4.2
+- Fix multi-select quirks on phones
+- Fix scrolling map issue on phones
+
 v4.1.4
 - Bring search closer to top of page - too low on mobile browsers
 
