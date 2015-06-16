@@ -90,6 +90,14 @@
                                 <div class="col-lg-10">
                                     <input type="text" class="form-control" id="zip" name="z">
                                 </div>
+
+                                <br><br>
+                                <label for="keyword" class="col-lg-2 control-label">Keywords</label>
+
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" id="keyword" name="k">
+                                </div>
+
                             </div>
 
                             <br><br>
@@ -305,13 +313,35 @@ function passesFilter(view, rowIndex) {
     passes = passes && applyFilter(view, rowIndex, COL_BOROUGH, queryParams.b); // Borough
     passes = passes && applyFilter(view, rowIndex, COL_CATEGORY, queryParams.c); // Category
     passes = passes && applyFilter(view, rowIndex, COL_ZIP, queryParams.z); // Zip
+
+    // Keyword search rule - pass if any of the keywords appears in either the name or description
+    keywords = (queryParams.k) ? queryParams.k[0].split(" ") : queryParams.k;
+    passes = passes && (applyFilterContains(view, rowIndex, COL_NAME, keywords) || applyFilterContains(view, rowIndex, COL_DESCRIPTION, keywords));
+
     return passes;
 }
 
-function applyFilter(view, rowIndex, colIndex, acceptedValues) {
-    if (!acceptedValues) return true;
+function applyFilter(view, rowIndex, colIndex, acceptedValuesArray) {
+    if (!acceptedValuesArray) return true;
     var value = view.getValue(rowIndex, colIndex);
-    return $.inArray(value, acceptedValues) != -1;
+    return $.inArray(value, acceptedValuesArray) != -1;
+}
+
+function applyFilterContains(view, rowIndex, colIndex, acceptedValuesArray) {
+    if (!acceptedValuesArray) return true;
+    var value = view.getValue(rowIndex, colIndex);
+    if (!value) return false;
+    for (var i in acceptedValuesArray) {
+        filterToken = acceptedValuesArray[i];
+        if (containsWord(value, filterToken)) return true;
+    }
+    return false;
+}
+
+function containsWord(source, word) {
+    if (!source) return false;
+    if (!word) return true;
+    return new RegExp('\\W' + word.toLowerCase() + '\\W').test(source.toLowerCase());
 }
 
 function getDefaultDataView() {
@@ -355,6 +385,7 @@ function render() {
     renderSelect($('#category'), data.getDistinctValues(1), queryParams.c);
 
     renderZipCode();
+    renderKeywords();
     renderList();
     renderMap();
 }
@@ -368,6 +399,11 @@ function renderSelect(select, values, selectedItems) {
 function renderZipCode() {
     if (!queryParams.z) return;
     $('#zip').val(queryParams.z);
+}
+
+function renderKeywords() {
+    if (!queryParams.k) return;
+    $('#keyword').val(queryParams.k[0]);
 }
 
 function renderList() {

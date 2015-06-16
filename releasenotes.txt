@@ -1,5 +1,8 @@
 TODO
 
+v5.1.0
+- Search - Create a simple keyword search (3)
+
 v5.0.1
 - Results - Show friendly copy when there are no results (1)
 - Landing Page - Add copy (1)
