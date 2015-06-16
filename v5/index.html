@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>NYC Community Asset Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="stylesheet" href="https://bootswatch.com/united/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="https://bootswatch.com/assets/css/bootswatch.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://bootswatch.com/bower_components/html5shiv/dist/html5shiv.js"></script>
+    <script src="https://bootswatch.com/bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://bootswatch.com/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+    <!-- Bootstrap Multiselect - http://davidstutz.github.io/bootstrap-multiselect/ -->
+    <link rel="stylesheet" href="https://davidstutz.github.io/bootstrap-multiselect/dist/css/bootstrap-multiselect.css" type="text/css">
+    <script type="text/javascript" src="https://davidstutz.github.io/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
+</head>
+<body>
+
+<style>
+    /* Turn off on-focus for drop-down selection because it's not working properly on mobile devices */
+    .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+        color: rgb(51, 51, 51);
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    /* Create a margin on the right side of the map so mobile devices can scroll easier */
+    .map-container {width:80%}
+</style>
+
+
+
+<!-- Header -->
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="index.html" class="navbar-brand">NYC Community Asset Map</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+
+
+    <!-- Search Form -->
+    <div class="bs-docs-section" style="margin-top:30px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="well bs-component">
+                    <form class="form-horizontal" action="index.html#r" method="get">
+                        <fieldset>
+                            <legend>Search</legend>
+                            <div class="form-group">
+
+                                <label for="borough" class="col-lg-2 control-label">Borough</label>
+                                <div class="col-lg-10">
+                                    <select class="form-control" id="borough" name="b" multiple="multiple">
+                                        <option value="">All</option>
+                                    </select>
+                                    <br>
+                                </div>
+
+                                <br><br>
+                                <label for="category" class="col-lg-2 control-label">Category</label>
+                                <div class="col-lg-10">
+                                    <select class="form-control" id="category" name="c" multiple="multiple">
+                                        <option value="">All</option>
+                                    </select>
+                                    <br>
+                                </div>
+
+                                <br><br>
+                                <label for="zip" class="col-lg-2 control-label">Zip Code</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" id="zip" name="z">
+                                </div>
+                            </div>
+
+                            <br><br>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </form>
+                    <a name="r"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Asset List -->
+    <div class="bs-docs-section">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Results</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <ul class="list-group" id="list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Map -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 id="map-header">Map</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 map-container">
+                <div class="bs-component">
+                    <div class="panel panel-default">
+                        <div class="panel-body" id="map" style="height:500px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add New Form -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            Have a suggestion for a Community Asset?<br>
+                            Please fill out our
+                            <a target="_blank" href="https://docs.google.com/forms/d/1gHeX6bpaXYxXM0v9x14eMaG7shL_ciUwZY874u3lCTo/viewform">Suggest a Community Asset Form</a>.
+
+                            <br><br>
+
+                            Know that an item should be changed/removd?<br>
+                            Please fill out our
+                            <a target="_blank" href="https://docs.google.com/a/teachforamerica.org/forms/d/15kqfPtG5MoPd2kLkcOhpx64SQT6GAiBcvAK6AA0iQHs/viewform">Suggest a Change/Removal Form</a>
+
+                            <br><br>
+
+                            Data Source: <a href="https://docs.google.com/spreadsheets/d/1MxC6S6qP7_cCOZXcN6nwu-BWB8R9aWJN43WaGa6AE8k/edit?usp=sharing" target="_blank">Google Spreadsheet with Source Data</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Utility Methods -->
+<script>
+function queryStringToObject() {
+    //copy-pasted from http://www.developerdrive.com/2013/08/turning-the-querystring-into-a-json-object-using-javascript/
+    var pairs = location.search.slice(1).split('&');
+    var result = {};
+    pairs.forEach(function(pair) {
+        pair = pair.split('=');
+        if (pair[0] == '') return;
+        var key = pair[0];
+        var value = decodeURIComponent(pair[1] || '').replace(/\+/g,' ');
+        if (!value || value == '') return;
+        if (result[key]) {
+            result[key].push(value);
+        } else {
+            result[key] = [value];
+        }
+    });
+    return JSON.parse(JSON.stringify(result));
+}
+
+function getZip(address) {
+    if (!address || address == "") return null;
+    var tokens = address.split(' ');
+    if (tokens.length < 1) return null;
+    var zipString = tokens[tokens.length-1];
+    if (zipString.indexOf('-') != -1) {
+        zipString = zipString.split('-')[0];
+    }
+    if (!$.isNumeric(zipString)) return null;
+    return zipString;
+}
+</script>
+
+
+<!-- Initialization Script -->
+<script>
+var queryParams = queryStringToObject(); // Load query parameters into an object for easy access
+
+// Column aliases
+var COL_BOROUGH = 0;
+var COL_CATEGORY = 1;
+var COL_NAME = 2;
+var COL_DESCRIPTION = 3;
+var COL_ADDRESS = 4;
+var COL_WEBSITE = 5;
+var COL_ZIP = 6;
+
+function afterJsApiLoad() {
+  var query = new google.visualization.Query('https://docs.google.com/spreadsheet/ccc?key=1MxC6S6qP7_cCOZXcN6nwu-BWB8R9aWJN43WaGa6AE8k&usp=drive_web&gid=0#');
+  query.send(afterQueryResponse);
+}
+
+// Load the needed google packages and callback
+google.load("visualization", '1', {packages:['table', 'map']});
+google.setOnLoadCallback(afterJsApiLoad);
+
+var data;
+function afterQueryResponse(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+
+  data = response.getDataTable();
+  fixDataTableFormatting(data);
+  render();
+}
+
+function fixDataTableFormatting(data) {
+    // Set the column labels to the first row values and remove the first row
+    for (var col in data.getNumberOfColumns()) {
+        columnName = data.getValue(0, col);
+        data.setColumnLabel(col, columnName);
+    }
+    data.removeRow(0);
+}
+
+// Initializing the selects with the multi-select plugin
+// If we do this later, the UI renderes a normal multi-select for too long, then switches over
+var multiSelectOptions = {
+    nonSelectedText: 'Any',
+    buttonWidth: '100%',
+    dropRight: true
+};
+$('#category').multiselect(multiSelectOptions);
+$('#borough').multiselect(multiSelectOptions);
+</script>
+
+<!-- Model Code -->
+<script>
+function getFilteredDataView() {
+    if (Object.keys(queryParams).length === 0) {
+        return getDefaultDataView();
+    }
+
+    var view = new google.visualization.DataView(data);
+
+    // Add a Zip column that's computed from the Address column
+    var calculateViewZip = function(dataTable, rowNum) { return getZip(dataTable.getValue(rowNum, COL_ADDRESS)); };
+    view.setColumns([0,1,2,3,4,5,{calc:calculateViewZip, type:'string', label:'Zip'}]);
+
+    // DataView.getFilteredRows() doesn't support multi-values 'or-type' filters, so we'll have to filter manually
+    var filteredIndexes = getFilteredIndexes(view);
+    view.setRows(filteredIndexes);
+
+    return view;
+}
+
+function getFilteredIndexes(view) {
+    var passingIndexes = [];
+    for (var rowIndex=0; rowIndex < view.getNumberOfRows(); rowIndex++) {
+        if (passesFilter(view, rowIndex)) {
+            passingIndexes.push(rowIndex);
+        }
+    }
+    return passingIndexes;
+}
+
+function passesFilter(view, rowIndex) {
+    var passes = true;
+    passes = passes && applyFilter(view, rowIndex, COL_BOROUGH, queryParams.b); // Borough
+    passes = passes && applyFilter(view, rowIndex, COL_CATEGORY, queryParams.c); // Category
+    passes = passes && applyFilter(view, rowIndex, COL_ZIP, queryParams.z); // Zip
+    return passes;
+}
+
+function applyFilter(view, rowIndex, colIndex, acceptedValues) {
+    if (!acceptedValues) return true;
+    var value = view.getValue(rowIndex, colIndex);
+    return $.inArray(value, acceptedValues) != -1;
+}
+
+function getDefaultDataView() {
+    // Return a data view with a single entry for the TFA office
+    // This is used in cases where there are no search queries set
+    var defaultData = new google.visualization.DataTable();
+    defaultData.addColumn('string', 'Burough');
+    defaultData.addColumn('string', 'Category');
+    defaultData.addColumn('string', 'Name');
+    defaultData.addColumn('string', 'Description');
+    defaultData.addColumn('string', 'Address');
+    defaultData.addColumn('string', 'Website');
+    defaultData.addRow(['Manhattan',
+                        'Education',
+                        'Teach For America',
+                        'Teach For America is part of a national teacher corps focused on raising student achievement in public schools.',
+                        '25 Broadway, New York, NY',
+                        'https://www.teachforamerica.org'
+                        ]);
+    return new google.visualization.DataView(defaultData);
+}
+
+function getMapDataView() {
+    var view = getFilteredDataView();
+    view.setColumns([4,2]);
+    return view;
+}
+</script>
+
+
+
+
+<!-- View-Controller Rendering Code -->
+<script>
+function render() {
+    // Render search select options based on data
+    renderSelect($('#borough'), data.getDistinctValues(0), queryParams.b);
+    renderSelect($('#category'), data.getDistinctValues(1), queryParams.c);
+
+    renderZipCode();
+    renderList();
+    renderMap();
+}
+
+function renderSelect(select, values, selectedItems) {
+    var options = [];
+    values.forEach(function(v) { if (v=="All") return; options.push({label:v, title:v, value:v, selected:(selectedItems && $.inArray(v, selectedItems)!=-1)})});
+    select.multiselect('dataprovider', options);
+}
+
+function renderZipCode() {
+    if (!queryParams.z) return;
+    $('#zip').val(queryParams.z);
+}
+
+function renderList() {
+    var view = getFilteredDataView();
+    if (view.getNumberOfRows() == 0) {
+        $('#list').append("<li class='list-group-item'>No Results.</li>");
+        return;
+    }
+    view.getSortedRows(2).forEach(function(rowIndex) {
+        var borough = view.getValue(rowIndex, 0);
+        var category = view.getValue(rowIndex, 1);
+        var name = view.getValue(rowIndex, 2);
+        var description = view.getValue(rowIndex, 3);
+        var address = view.getValue(rowIndex, 4);
+        var url = view.getValue(rowIndex, 5);
+
+        var markup = "<li class='list-group-item'>"
+                    + "<h4>"
+                        + "<a href='" + url + "' target='_blank'>"
+                            + name
+                        + "</a>"
+                    + "</h4>"
+                    + (address || '') + "<br>"
+                    + borough + " | " + category + "<br><br>"
+                    + (description || '')
+                    + "</li>";
+        $('#list').append(markup);
+    });
+}
+
+function renderMap() {
+    var mapData = getMapDataView();
+
+    var rowCount = mapData.getNumberOfRows();
+    if (rowCount == 0) {
+        $('#map').append("No Results.");
+        return;
+    }
+
+    // This is a work-around for the fact that with 20+ items, the map rendernig sloooows down
+    // If there are 20-ish items, we'll just map the first 20 and show a message
+    var maxMapResults = 25;
+    if (rowCount > maxMapResults) {
+        $('#map-header').append(' (first ' + maxMapResults + ' results)');
+        mapData.setRows(mapData.getViewRows().splice(0, maxMapResults-1));
+    }
+
+    var options = {
+        showTip: true,
+        zoomLevel:(queryParams.z) ? 14 : 11,
+        mapType: 'normal',
+        scrollwheel: false,
+		navigationControl: false,
+		mapTypeControl: false,
+		draggable: false
+    }
+    var map = new google.visualization.Map(document.getElementById('map'));
+    map.draw(mapData, options);
+}
+
+</script>
+
+</body>
+</html>

@@ -1,5 +1,9 @@
 TODO
 
+
+v5.0.0
+- Bug - Search - Manhattan | Education > Better Bronx for Youth Consortium is in map, but not list
+
 v4.2
 - Fix multi-select quirks on phones
 - Fix scrolling map issue on phones
