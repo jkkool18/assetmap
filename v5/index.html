@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>NYC Community Asset Map</title>
+    <title>NYC Community Assets Map</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <link rel="stylesheet" href="https://bootswatch.com/united/bootstrap.css" media="screen">
@@ -27,8 +27,8 @@
 <style>
     /* Turn off on-focus for drop-down selection because it's not working properly on mobile devices */
     .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
-        color: rgb(51, 51, 51);
-        background-color: rgba(0, 0, 0, 0);
+    color: rgb(51, 51, 51);
+    background-color: rgba(0, 0, 0, 0);
     }
 
     /* Create a margin on the right side of the map so mobile devices can scroll easier */
@@ -36,18 +36,23 @@
 </style>
 
 
-
 <!-- Header -->
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a href="index.html" class="navbar-brand">NYC Community Asset Map</a>
+            <a href="index.html" class="navbar-brand">NYC Community Assets Map</a>
         </div>
     </div>
 </div>
 
 
 <div class="container">
+
+    <!-- Top Copy -->
+    <br>
+    Whether you are looking for programs for your students, resources to share with families and/or opportunities to volunteer in your neighborhood, this community assets list is a one-stop shop for local searches.
+    <br><br>
+    This list features over 300 organizations in New York City devoted to health, education, arts, legal services, sports, LGBTQ communities, immigration, the environment, affordable housing and much more. We know that this list is just getting started, so if you are looking for something but not finding it or have assets to add, submit your ideas via the links at the bottom.
 
 
     <!-- Search Form -->
@@ -61,6 +66,7 @@
                             <div class="form-group">
 
                                 <label for="borough" class="col-lg-2 control-label">Borough</label>
+
                                 <div class="col-lg-10">
                                     <select class="form-control" id="borough" name="b" multiple="multiple">
                                         <option value="">All</option>
@@ -70,6 +76,7 @@
 
                                 <br><br>
                                 <label for="category" class="col-lg-2 control-label">Category</label>
+
                                 <div class="col-lg-10">
                                     <select class="form-control" id="category" name="c" multiple="multiple">
                                         <option value="">All</option>
@@ -79,12 +86,14 @@
 
                                 <br><br>
                                 <label for="zip" class="col-lg-2 control-label">Zip Code</label>
+
                                 <div class="col-lg-10">
                                     <input type="text" class="form-control" id="zip" name="z">
                                 </div>
                             </div>
 
                             <br><br>
+
                             <div class="form-group">
                                 <div class="col-lg-10 col-lg-offset-2">
                                     <button type="submit" class="btn btn-primary">Search</button>
@@ -101,7 +110,7 @@
 
 
     <!-- Asset List -->
-    <div class="bs-docs-section">
+    <div class="bs-docs-section" style="margin-top:4em">
         <div class="row">
             <div class="col-lg-12">
                 <h2>Results</h2>
@@ -118,12 +127,12 @@
 
 
         <!-- Map -->
-        <div class="row">
+        <div id="map-header" class="row">
             <div class="col-lg-12">
                 <h2 id="map-header">Map</h2>
             </div>
         </div>
-        <div class="row">
+        <div id="map-container" class="row">
             <div class="col-lg-12 map-container">
                 <div class="bs-component">
                     <div class="panel panel-default">
@@ -146,7 +155,7 @@
 
                             <br><br>
 
-                            Know that an item should be changed/removd?<br>
+                            Know that an item should be changed/removed?<br>
                             Please fill out our
                             <a target="_blank" href="https://docs.google.com/a/teachforamerica.org/forms/d/15kqfPtG5MoPd2kLkcOhpx64SQT6GAiBcvAK6AA0iQHs/viewform">Suggest a Change/Removal Form</a>
 
@@ -194,6 +203,11 @@ function getZip(address) {
     if (!$.isNumeric(zipString)) return null;
     return zipString;
 }
+
+
+
+
+
 </script>
 
 
@@ -249,6 +263,11 @@ var multiSelectOptions = {
 };
 $('#category').multiselect(multiSelectOptions);
 $('#borough').multiselect(multiSelectOptions);
+
+
+
+
+
 </script>
 
 <!-- Model Code -->
@@ -320,9 +339,12 @@ function getMapDataView() {
     view.setColumns([4,2]);
     return view;
 }
+
+
+
+
+
 </script>
-
-
 
 
 <!-- View-Controller Rendering Code -->
@@ -351,7 +373,10 @@ function renderZipCode() {
 function renderList() {
     var view = getFilteredDataView();
     if (view.getNumberOfRows() == 0) {
-        $('#list').append("<li class='list-group-item'>No Results.</li>");
+        $('#list').append("<li class='list-group-item'><div class='alert alert-danger'>"
+                            + "<strong>Sorry, no results match your selection.</strong><br><br>".toUpperCase()
+                            + "Suggestion: Remove or modify some of your search options and try again."
+                           + "</strong></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></li>");
         return;
     }
     view.getSortedRows(2).forEach(function(rowIndex) {
@@ -381,7 +406,8 @@ function renderMap() {
 
     var rowCount = mapData.getNumberOfRows();
     if (rowCount == 0) {
-        $('#map').append("No Results.");
+        $('#map-container').addClass("hidden");
+        $('#map-header').addClass("hidden");
         return;
     }
 
@@ -405,6 +431,11 @@ function renderMap() {
     var map = new google.visualization.Map(document.getElementById('map'));
     map.draw(mapData, options);
 }
+
+
+
+
+
 
 </script>
 
