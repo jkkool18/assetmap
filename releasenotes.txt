@@ -1,5 +1,8 @@
 TODO
 
+v5.2.0
+- Support Lat/Long-based search
+
 v5.1.0
 - Search - Create a simple keyword search (3)
 
