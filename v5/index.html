@@ -33,6 +33,9 @@
 
     /* Create a margin on the right side of the map so mobile devices can scroll easier */
     .map-container {width:80%}
+
+    /* De-emphasize the search text inputs, so they seem more optional */
+    .form-control {background-color: #FCFCFC;}
 </style>
 
 
@@ -88,14 +91,14 @@
                                 <label for="zip" class="col-lg-2 control-label">Zip Code</label>
 
                                 <div class="col-lg-10">
-                                    <input type="text" class="form-control" id="zip" name="z">
+                                    <input type="text" class="form-control" id="zip" name="z" placeholder="<optional>">
                                 </div>
 
                                 <br><br>
                                 <label for="keyword" class="col-lg-2 control-label">Keywords</label>
 
                                 <div class="col-lg-10">
-                                    <input type="text" class="form-control" id="keyword" name="k">
+                                    <input type="text" class="form-control" id="keyword" name="k" placeholder="<optional>">
                                 </div>
 
                             </div>

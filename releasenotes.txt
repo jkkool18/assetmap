@@ -1,5 +1,8 @@
 TODO
 
+v5.2.3
+- Search - De-emphasize Zip Code (gray out), add "<optional>" text (1)
+
 v5.2.2
 - Search - Add copy to recommend selection criteria (1)
 
