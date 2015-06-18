@@ -1,5 +1,8 @@
 TODO
 
+v5.3.0
+- Polish - Use TFA CSS or Customize based on TFA Design Page (and NYC GSite) (2-3)
+
 v5.2.3
 - Search - De-emphasize Zip Code (gray out), add "<optional>" text (1)
 

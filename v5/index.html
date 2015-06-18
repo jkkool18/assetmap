@@ -5,7 +5,7 @@
     <title>NYC Community Assets Map</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <link rel="stylesheet" href="https://bootswatch.com/united/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.css" media="screen">
     <link rel="stylesheet" href="https://bootswatch.com/assets/css/bootswatch.min.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,6 +36,10 @@
 
     /* De-emphasize the search text inputs, so they seem more optional */
     .form-control {background-color: #FCFCFC;}
+
+    /* Match default button color to TFA style tile v3 */
+    .btn-default { background-color: #00b4e5; border-color: #00a0cc; }
+    a {color: #00b4e5}
 </style>
 
 
@@ -70,7 +74,7 @@
                             <div class="form-group">
                                 <label for="borough" class="col-lg-2 control-label">Borough</label>
 
-                                <div class="col-lg-10">
+                                <div class="col-lg-10" style="margin-bottom:5px">
                                     <select class="form-control" id="borough" name="b" multiple="multiple">
                                         <option value="">All</option>
                                     </select>
@@ -80,7 +84,7 @@
                                 <br><br>
                                 <label for="category" class="col-lg-2 control-label">Category</label>
 
-                                <div class="col-lg-10">
+                                <div class="col-lg-10" style="margin-bottom:5px;">
                                     <select class="form-control" id="category" name="c" multiple="multiple">
                                         <option value="">All</option>
                                     </select>
@@ -103,11 +107,11 @@
 
                             </div>
 
-                            <br><br>
+                            <br>
 
                             <div class="form-group">
                                 <div class="col-lg-10 col-lg-offset-2">
-                                    <button type="submit" class="btn btn-primary">Search</button>
+                                    <button type="submit" class="btn btn-warning">Search</button>
                                 </div>
                             </div>
 
