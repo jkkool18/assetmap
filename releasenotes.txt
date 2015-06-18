@@ -1,5 +1,8 @@
 TODO
 
+v5.2.2
+- Search - Add copy to recommend selection criteria (1)
+
 v5.2.1
 - Search - Copy - Change "Any" to "All Boroughs"/"All Categories" (1)
 
