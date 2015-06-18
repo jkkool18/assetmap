@@ -270,19 +270,16 @@ function fixDataTableFormatting(data) {
 
 // Initializing the selects with the multi-select plugin
 // If we do this later, the UI renderes a normal multi-select for too long, then switches over
-var multiSelectOptions = {
-    nonSelectedText: 'Any',
-    buttonWidth: '100%',
-    dropRight: true
-};
-$('#category').multiselect(multiSelectOptions);
-$('#borough').multiselect(multiSelectOptions);
-
-
-
-
-
-
+function renderMultiSelect(elementSelector, title) {
+    var multiSelectOptions = {
+        nonSelectedText: title,
+        buttonWidth: '100%',
+        dropRight: true
+    };
+    $(elementSelector).multiselect(multiSelectOptions);
+}
+renderMultiSelect('#category', "All Categories");
+renderMultiSelect('#borough', "All Boroughs");
 
 </script>
 

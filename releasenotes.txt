@@ -1,5 +1,8 @@
 TODO
 
+v5.2.1
+- Search - Copy - Change "Any" to "All Boroughs"/"All Categories" (1)
+
 v5.2.0
 - Support Lat/Long-based search
 
