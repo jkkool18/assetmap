@@ -95,7 +95,7 @@
                                 <label for="zip" class="col-lg-2 control-label">Zip Code</label>
 
                                 <div class="col-lg-10">
-                                    <input type="text" class="form-control" id="zip" name="z" placeholder="<optional>">
+                                    <input type="text" class="form-control" id="zip" name="z" placeholder="<optional>" maxlength="5" onkeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
                                 </div>
 
                                 <br><br>

@@ -1,5 +1,8 @@
 TODO
 
+v5.3.1
+- Search - Zip Code - Only accept valid zip codes (2)
+
 v5.3.0
 - Polish - Use TFA CSS or Customize based on TFA Design Page (and NYC GSite) (2-3)
 
