@@ -1,5 +1,8 @@
 TODO
 
+v5.3.2
+- Branding - Add TFA Logo (1)
+
 v5.3.1
 - Search - Zip Code - Only accept valid zip codes (2)
 
