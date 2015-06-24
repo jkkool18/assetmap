@@ -1,5 +1,9 @@
 TODO
 
+
+v5.6.0
+- Search - Dump results when no filters added
+
 v5.5.0
 - Map - Speed up map rendering (4)
 - Results - Add resource info to map pins

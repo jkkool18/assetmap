@@ -329,7 +329,7 @@ function getDefaultDataView() {
 }
 
 function getFilteredDataView() {
-    if (Object.keys(queryParams).length === 0) {
+    if (Object.keys(queryParams).length === 0 && window.location.hash.substring(1) == "") {
         return getDefaultDataView();
     }
 
@@ -347,6 +347,11 @@ function getFilteredDataView() {
                         COL_LONG,
                         {calc:calculateViewZip, type:'string', label:'Zip'}
                     ]);
+
+    // If the search criteria is blank (but somebody hit the search button, return all the data
+    if (Object.keys(queryParams).length === 0 && window.location.hash.substring(1) != "") {
+        return view;
+    }
 
     // DataView.getFilteredRows() doesn't support multi-values 'or-type' filters, so we'll have to filter manually
     var filteredIndexes = getFilteredIndexes(view);
@@ -468,7 +473,8 @@ function render() {
     renderZipCode();
     renderKeywords();
 
-    if (!$.isEmptyObject(queryParams)) {
+    var shouldRenderResults = window.location.hash.substring(1) != ""
+    if (shouldRenderResults) {
         renderList();
         renderMap();
     } else {
