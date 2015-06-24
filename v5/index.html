@@ -62,12 +62,9 @@
     <!-- Top Copy -->
     <br>
     <h4><center>
-        A curated and crowd-sourced hub for local community support.<br>
-        Search by location, keyword, and/or type.
-    </center></h4><br>
+        A curated and crowd-sourced hub for local community support.
+    </center></h4>
 
-    This list features over 300 organizations in New York City devoted to health, education, arts, legal services, sports, LGBTQ communities, immigration, the environment, affordable housing and much more.
-    <br>
 
 
     <!-- Search Form -->
@@ -129,17 +126,11 @@
                 </div>
             </div>
         </div>
-        We know that this list is just getting started, so if you are looking for something but not finding it or have assets to add, submit your ideas via the links at the bottom.
     </div>
 
 
     <!-- Asset List -->
     <div class="bs-docs-section" style="margin-top:4em">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2>Results</h2>
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="bs-component">
@@ -151,11 +142,6 @@
 
 
         <!-- Map -->
-        <div id="map-header" class="row">
-            <div class="col-lg-12">
-                <h2 id="map-header">Map</h2>
-            </div>
-        </div>
         <div id="map-container" class="row">
             <div class="col-lg-12 map-container">
                 <div class="bs-component">
@@ -468,8 +454,14 @@ function render() {
 
     renderZipCode();
     renderKeywords();
-    renderList();
-    renderMap();
+
+    if (!$.isEmptyObject(queryParams)) {
+        renderList();
+        renderMap();
+    } else {
+        // no results, hide the map div so it doesn't take up space
+        $('#map-container').remove();
+    }
 }
 
 function renderSelect(select, values, selectedItems) {

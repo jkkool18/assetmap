@@ -1,5 +1,13 @@
 TODO
 
+
+v5.4.0
+- Landing Page - Do not show results and map section (1)
+- Copy: Get rid of "Results" and "Map" Headers
+- Copy - get rid of "search by...."
+- Copy - get rid of "a list of 300"
+- Copy - get rid of "suggest a change" copy
+
 v5.3.3
 - Update lead copy
 
