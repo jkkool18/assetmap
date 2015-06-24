@@ -1,5 +1,9 @@
 TODO
 
+v5.5.0
+- Map - Speed up map rendering (4)
+- Results - Add resource info to map pins
+
 v5.4.1
 - Copy - Update Google Form links
 - Google Forms/Copy - Rewrite links at bottom (1)

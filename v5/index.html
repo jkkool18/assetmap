@@ -450,10 +450,9 @@ function containsWord(source, word) {
 
 function getMapDataView() {
     var view = getFilteredDataView();
-    view.setColumns([4,2]);
+    view.setColumns([COL_LAT, COL_LONG, {calc:renderCardFromViewRowMarkup, type:'string', label:'Text'} ]);
     return view;
 }
-
 
 
 </script>
@@ -504,25 +503,28 @@ function renderList() {
         return;
     }
     view.getSortedRows(2).forEach(function(rowIndex) {
-        var borough = view.getValue(rowIndex, 0);
-        var category = view.getValue(rowIndex, 1);
-        var name = view.getValue(rowIndex, 2);
-        var description = view.getValue(rowIndex, 3);
-        var address = view.getValue(rowIndex, 4);
-        var url = view.getValue(rowIndex, 5);
+        var markup = "<li class='list-group-item'>" + renderCardFromViewRowMarkup(view, rowIndex) + "</li>";
+        $('#list').append(markup);
+    });
+}
 
-        var markup = "<li class='list-group-item'>"
-                    + "<h4>"
+function renderCardFromViewRowMarkup(view, rowIndex) {
+        var borough = view.getValue(rowIndex, COL_BOROUGH);
+        var category = view.getValue(rowIndex, COL_CATEGORY);
+        var name = view.getValue(rowIndex, COL_NAME);
+        var description = view.getValue(rowIndex, COL_DESCRIPTION);
+        var address = view.getValue(rowIndex, COL_ADDRESS);
+        var url = view.getValue(rowIndex, COL_WEBSITE);
+
+        var markup = "<h4>"
                         + "<a href='" + url + "' target='_blank'>"
                             + name
                         + "</a>"
                     + "</h4>"
                     + (address || '') + "<br>"
                     + borough + " | " + category + "<br><br>"
-                    + (description || '')
-                    + "</li>";
-        $('#list').append(markup);
-    });
+                    + (description || '');
+        return markup;
 }
 
 function renderMap() {
@@ -535,17 +537,9 @@ function renderMap() {
         return;
     }
 
-    // This is a work-around for the fact that with 20+ items, the map rendernig sloooows down
-    // If there are 20-ish items, we'll just map the first 20 and show a message
-    var maxMapResults = 25;
-    if (rowCount > maxMapResults) {
-        $('#map-header').append(' (first ' + maxMapResults + ' results)');
-        mapData.setRows(mapData.getViewRows().splice(0, maxMapResults-1));
-    }
-
     var options = {
         showTip: true,
-        zoomLevel:(queryParams.z) ? 14 : 11,
+        //zoomLevel:(queryParams.z) ? 14 : 11,
         mapType: 'normal',
         scrollwheel: false,
 		navigationControl: false,
