@@ -1,5 +1,7 @@
 TODO
 
+v5.6.1
+- Copy - Add "oops" icon to no results & change color
 
 v5.6.0
 - Search - Dump results when no filters added

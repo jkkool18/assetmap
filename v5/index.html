@@ -502,10 +502,11 @@ function renderKeywords() {
 function renderList() {
     var view = getFilteredDataView();
     if (view.getNumberOfRows() == 0) {
-        $('#list').append("<li class='list-group-item'><div class='alert alert-danger'>"
-                            + "<strong>Sorry, no results match your selection.</strong><br><br>".toUpperCase()
+        $('#list').append("<li class='list-group-item'><div class=''>"
+                            + "<img style='float:left' src='img/oops.png'>"
+                            + "<br><br><br><br><strong style='font-size:120%'>Oops! We don't have any results that match your selection.</strong><br>"
                             + "Suggestion: Remove or modify some of your search options and try again."
-                           + "</strong></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></li>");
+                           + "</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></li>");
         return;
     }
     view.getSortedRows(2).forEach(function(rowIndex) {
