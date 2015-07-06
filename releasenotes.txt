@@ -1,5 +1,9 @@
 TODO
 
+
+v5.7.0
+- Add basic Google Analytics
+
 v5.6.1
 - Copy - Add "oops" icon to no results & change color
 
