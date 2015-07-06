@@ -1,5 +1,8 @@
 TODO
+- Centralize NYC spreadsheets
 
+v5.8.0
+- Limit retrieved columns to those needed
 
 v5.7.0
 - Add basic Google Analytics
