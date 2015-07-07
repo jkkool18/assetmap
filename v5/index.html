@@ -286,12 +286,11 @@ function afterQueryResponse(response) {
 }
 
 function fixDataTableFormatting(data) {
-    // Set the column labels to the first row values and remove the first row
+    // Set the column labels to the first row values
     for (var col in data.getNumberOfColumns()) {
         columnName = data.getValue(0, col);
         data.setColumnLabel(col, columnName);
     }
-    data.removeRow(0);
 }
 
 // Initializing the selects with the multi-select plugin

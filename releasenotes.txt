@@ -1,8 +1,14 @@
 TODO
-- Centralize NYC spreadsheets
+- Bug - Keyword search for first word in org name not working
+- Bug - Trailing space in keyword causes search to not work
+- Support multiple categories
+
+v5.8.1
+- Bug - First item in Spreadsheet is ignored
 
 v5.8.0
 - Limit retrieved columns to those needed
+- Centralize NYC spreadsheets
 
 v5.7.0
 - Add basic Google Analytics
