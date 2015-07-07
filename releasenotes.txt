@@ -1,7 +1,9 @@
 TODO
+- Support multiple categories
+
+v5.8.2
 - Bug - Keyword search for first word in org name not working
 - Bug - Trailing space in keyword causes search to not work
-- Support multiple categories
 
 v5.8.1
 - Bug - First item in Spreadsheet is ignored

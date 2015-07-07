@@ -386,7 +386,7 @@ function passesFilter(view, rowIndex) {
     passes = passes && applyFilterZip(view, rowIndex);                           // Zip
 
     // Keyword search rule - pass if any of the keywords appears in either the name or description
-    keywords = (queryParams.k) ? queryParams.k[0].split(" ") : queryParams.k;
+    keywords = (queryParams.k) ? queryParams.k[0].trim().split(" ") : null;
     passes = passes && (applyFilterContains(view, rowIndex, COL_NAME, keywords) || applyFilterContains(view, rowIndex, COL_DESCRIPTION, keywords));
 
     return passes;
@@ -459,7 +459,7 @@ function computeDistanceInMiles(latLong1, latLong2) {
 function containsWord(source, word) {
     if (!source) return false;
     if (!word) return true;
-    return new RegExp('\\W' + word.toLowerCase() + '\\W').test(source.toLowerCase());
+    return new RegExp('\\b' + word.toLowerCase() + '\\b').test(source.toLowerCase());
 }
 
 function getMapDataView() {
