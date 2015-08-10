@@ -1,6 +1,9 @@
 TODO
 - Support multiple categories
 
+v5.8.3
+- Change title to "NYC Neighborhood Assets Map"
+
 v5.8.2
 - Bug - Keyword search for first word in org name not working
 - Bug - Trailing space in keyword causes search to not work
