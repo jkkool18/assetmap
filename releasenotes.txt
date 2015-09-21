@@ -1,6 +1,9 @@
 TODO
 - Support multiple categories
 
+v5.9.1
+- Roll back google analytics breaking change
+
 v5.9.0
 - Google Analytics - Track external link clicks
 
