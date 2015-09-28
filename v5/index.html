@@ -5,8 +5,8 @@
     <title>NYC Neighborhood Assets Map</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.css" media="screen">
-    <link rel="stylesheet" href="https://bootswatch.com/assets/css/bootswatch.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="css/custom.min.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://bootswatch.com/bower_components/html5shiv/dist/html5shiv.js"></script>
@@ -589,7 +589,7 @@ function renderMap() {
 var trackOutboundLink = function(e) {
     var selectedUrl = $(e).attr('href');
     console.log(selectedUrl);
-    ga('send', 'event', 'outbound', 'click', selectedUrl, {'hitCallback':function () {}});
+    ga('send', 'event', 'outbound', 'Partner Website Click', selectedUrl, {'hitCallback':function () {}});
 };
 $('a').click(function() {trackOutboundLink(this);});
 </script>
