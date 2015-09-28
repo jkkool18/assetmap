@@ -588,7 +588,6 @@ function renderMap() {
 // Add support for tracking outbound link clicks witih Google Analytics, taken from https://support.google.com/analytics/answer/1136920?hl=en
 var trackOutboundLink = function(e) {
     var selectedUrl = $(e).attr('href');
-    console.log(selectedUrl);
     ga('send', 'event', 'outbound', 'Partner Website Click', selectedUrl, {'hitCallback':function () {}});
 };
 $('a').click(function() {trackOutboundLink(this);});

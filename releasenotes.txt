@@ -1,6 +1,9 @@
 TODO
 - Support multiple categories
 
+v5.9.4
+- Remove console.log()
+
 v5.9.3
 - Fix missign CSS dependencies
 - Change external link click Google Analaytics to 'Partner Website Click'
