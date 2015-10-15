@@ -1,6 +1,11 @@
 TODO
 - Support multiple categories
 
+v5.10.0
+- Support multiple boroughs
+- Support multiple categories
+- Don't show items on the map that have multiple boroughs
+
 v5.9.4
 - Remove console.log()
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -199,54 +199,84 @@
 
 <!-- Utility Methods -->
 <script>
-function queryStringToObject() {
-    //copy-pasted from http://www.developerdrive.com/2013/08/turning-the-querystring-into-a-json-object-using-javascript/
-    var pairs = location.search.slice(1).split('&');
-    var result = {};
-    pairs.forEach(function(pair) {
-        pair = pair.split('=');
-        if (pair[0] == '') return;
-        var key = pair[0];
-        var value = decodeURIComponent(pair[1] || '').replace(/\+/g,' ');
-        if (!value || value == '') return;
-        if (result[key]) {
-            result[key].push(value);
-        } else {
-            result[key] = [value];
+    /**
+     * URL Utilities
+     **/
+    var Url = {
+        queryStringToObject: function () {
+            //copy-pasted from http://www.developerdrive.com/2013/08/turning-the-querystring-into-a-json-object-using-javascript/
+            var pairs = location.search.slice(1).split('&');
+            var result = {};
+            pairs.forEach(function (pair) {
+                pair = pair.split('=');
+                if (pair[0] == '') return;
+                var key = pair[0];
+                var value = decodeURIComponent(pair[1] || '').replace(/\+/g, ' ');
+                if (!value || value == '') return;
+                if (result[key]) {
+                    result[key].push(value);
+                } else {
+                    result[key] = [value];
+                }
+            });
+            return JSON.parse(JSON.stringify(result));
         }
-    });
-    return JSON.parse(JSON.stringify(result));
-}
-
-function getZip(address) {
-    if (!address || address == "") return null;
-    var tokens = address.split(' ');
-    if (tokens.length < 1) return null;
-    var zipString = tokens[tokens.length-1];
-    if (zipString.indexOf('-') != -1) {
-        zipString = zipString.split('-')[0];
     }
-    if (!$.isNumeric(zipString)) return null;
-    return zipString;
-}
 
+    /**
+     * Geography utilities
+     **/
+    var Geo = {
+        getZip: function (address) {
+            if (!address || address == "") return null;
+            var tokens = address.split(' ');
+            if (tokens.length < 1) return null;
+            var zipString = tokens[tokens.length - 1];
+            if (zipString.indexOf('-') != -1) {
+                zipString = zipString.split('-')[0];
+            }
+            if (!$.isNumeric(zipString)) return null;
+            return zipString;
+        }
+    }
 
+    /**
+     * Array utilities
+     **/
+    var Arrays = {
+        normalize: function (a) {
+            // Convert an array that has denormalized, comma separated data into a flat array
+            // e.g. Arrays.normalize(['a', 'a, b']) returns ['a', 'a', 'b']
+            return $.map(a, function (b) { return b.split(','); }).map(function (c) { return c.trim(); });
+        },
 
+        distinct: function (a) {
+            return $.unique(a);
+        },
 
+        normalizeDistinctSort: function (a) {
+            return this.distinct(this.normalize(a)).sort();
+        },
 
-
-
-
+        shareOne: function (a, b) {
+            // Return whether a & b share a common element
+            return a.some(function (v) {
+                return b.indexOf(v) >= 0;
+            });
+        }
+    };
 </script>
+
 
 
 <!-- Initialization Script -->
 <script>
-var queryParams = queryStringToObject(); // Load query parameters into an object for easy access
+var queryParams = Url.queryStringToObject(); // Load query parameters into an object for easy access
 
 var zipLatLongs = {"10001":{"lat":40.750742,"long":-73.99653},"10002":{"lat":40.71704,"long":-73.987},"10003":{"lat":40.732509,"long":-73.98935},"10004":{"lat":40.699226,"long":-74.04118},"10005":{"lat":40.706019,"long":-74.00858},"10006":{"lat":40.707904,"long":-74.01342},"10007":{"lat":40.714754,"long":-74.00721},"10009":{"lat":40.727093,"long":-73.97864},"10010":{"lat":40.739022,"long":-73.98205},"10011":{"lat":40.741012,"long":-74.00012},"10012":{"lat":40.72596,"long":-73.99834},"10013":{"lat":40.720666,"long":-74.00526},"10014":{"lat":40.734718,"long":-74.00532},"10016":{"lat":40.74618,"long":-73.97759},"10017":{"lat":40.752159,"long":-73.97231},"10018":{"lat":40.755101,"long":-73.99337},"10019":{"lat":40.765714,"long":-73.9856},"10020":{"lat":40.758667,"long":-73.98024},"10021":{"lat":40.76842,"long":-73.96045},"10022":{"lat":40.759015,"long":-73.96732},"10023":{"lat":40.776099,"long":-73.98285},"10024":{"lat":40.786387,"long":-73.97709},"10025":{"lat":40.798502,"long":-73.96811},"10026":{"lat":40.802853,"long":-73.95471},"10027":{"lat":40.812665,"long":-73.95499},"10028":{"lat":40.776777,"long":-73.9541},"10029":{"lat":40.791586,"long":-73.94575},"10030":{"lat":40.818151,"long":-73.94351},"10031":{"lat":40.826201,"long":-73.94879},"10032":{"lat":40.840686,"long":-73.94154},"10033":{"lat":40.848764,"long":-73.93496},"10034":{"lat":40.867653,"long":-73.92},"10035":{"lat":40.802395,"long":-73.93359},"10036":{"lat":40.759511,"long":-73.99019},"10037":{"lat":40.813385,"long":-73.93616},"10038":{"lat":40.709677,"long":-74.00365},"10039":{"lat":40.826181,"long":-73.9371},"10040":{"lat":40.858704,"long":-73.92853},"10044":{"lat":40.762174,"long":-73.94917},"10065":{"lat":40.7658914,"long":-73.9614134},"10075":{"lat":40.7734772,"long":-73.9560936},"10128":{"lat":40.781894,"long":-73.95039},"10280":{"lat":40.707467,"long":-74.0178},"10301":{"lat":40.631775,"long":-74.09432},"10302":{"lat":40.631127,"long":-74.13715},"10303":{"lat":40.629448,"long":-74.16239},"10304":{"lat":40.60787,"long":-74.08991},"10305":{"lat":40.599021,"long":-74.07503},"10306":{"lat":40.569394,"long":-74.11785},"10307":{"lat":40.508274,"long":-74.24387},"10308":{"lat":40.551353,"long":-74.15098},"10309":{"lat":40.529749,"long":-74.21304},"10310":{"lat":40.63212,"long":-74.11551},"10312":{"lat":40.543117,"long":-74.17628},"10314":{"lat":40.606337,"long":-74.14513},"10451":{"lat":40.819729,"long":-73.9223},"10452":{"lat":40.838745,"long":-73.92234},"10453":{"lat":40.853017,"long":-73.91214},"10454":{"lat":40.805968,"long":-73.91628},"10455":{"lat":40.815559,"long":-73.90771},"10456":{"lat":40.829676,"long":-73.90856},"10457":{"lat":40.846745,"long":-73.89861},"10458":{"lat":40.864166,"long":-73.88881},"10459":{"lat":40.825432,"long":-73.89327},"10460":{"lat":40.84095,"long":-73.88036},"10461":{"lat":40.842917,"long":-73.83819},"10462":{"lat":40.842173,"long":-73.85862},"10463":{"lat":40.881086,"long":-73.90749},"10464":{"lat":40.857017,"long":-73.78903},"10465":{"lat":40.825727,"long":-73.81752},"10466":{"lat":40.89095,"long":-73.84702},"10467":{"lat":40.872265,"long":-73.86937},"10468":{"lat":40.867107,"long":-73.89916},"10469":{"lat":40.868643,"long":-73.84735},"10470":{"lat":40.900629,"long":-73.86072},"10471":{"lat":40.900819,"long":-73.90347},"10472":{"lat":40.830409,"long":-73.86845},"10473":{"lat":40.818514,"long":-73.85893},"10474":{"lat":40.81321,"long":-73.88755},"10475":{"lat":40.878522,"long":-73.82541},"11004":{"lat":40.742944,"long":-73.70956},"11005":{"lat":40.756983,"long":-73.7148},"11101":{"lat":40.745341,"long":-73.93907},"11102":{"lat":40.771286,"long":-73.92462},"11103":{"lat":40.762968,"long":-73.91091},"11104":{"lat":40.743796,"long":-73.91949},"11105":{"lat":40.774686,"long":-73.90816},"11106":{"lat":40.762012,"long":-73.93147},"11201":{"lat":40.695286,"long":-73.98907},"11203":{"lat":40.649059,"long":-73.93304},"11204":{"lat":40.618944,"long":-73.98473},"11205":{"lat":40.694214,"long":-73.96529},"11206":{"lat":40.702348,"long":-73.94288},"11207":{"lat":40.670874,"long":-73.89424},"11208":{"lat":40.672666,"long":-73.87248},"11209":{"lat":40.62327,"long":-74.0295},"11210":{"lat":40.627946,"long":-73.94552},"11211":{"lat":40.71209,"long":-73.95427},"11212":{"lat":40.662191,"long":-73.91328},"11213":{"lat":40.670937,"long":-73.93459},"11214":{"lat":40.598994,"long":-73.99611},"11215":{"lat":40.667508,"long":-73.9856},"11216":{"lat":40.680398,"long":-73.94824},"11217":{"lat":40.68209,"long":-73.97783},"11218":{"lat":40.644552,"long":-73.97595},"11219":{"lat":40.632449,"long":-73.99629},"11220":{"lat":40.641436,"long":-74.01574},"11221":{"lat":40.691234,"long":-73.92637},"11222":{"lat":40.726302,"long":-73.94559},"11223":{"lat":40.598142,"long":-73.97229},"11224":{"lat":40.576589,"long":-73.99172},"11225":{"lat":40.662892,"long":-73.95509},"11226":{"lat":40.645256,"long":-73.95553},"11228":{"lat":40.617563,"long":-74.01168},"11229":{"lat":40.599256,"long":-73.94118},"11230":{"lat":40.622994,"long":-73.96427},"11231":{"lat":40.6788,"long":-74.00254},"11232":{"lat":40.655481,"long":-74.00424},"11233":{"lat":40.676938,"long":-73.91858},"11234":{"lat":40.618561,"long":-73.9216},"11235":{"lat":40.583803,"long":-73.95019},"11236":{"lat":40.640527,"long":-73.90362},"11237":{"lat":40.703355,"long":-73.91993},"11238":{"lat":40.680145,"long":-73.96257},"11239":{"lat":40.645848,"long":-73.87919},"11354":{"lat":40.767969,"long":-73.82496},"11355":{"lat":40.749463,"long":-73.81941},"11356":{"lat":40.785462,"long":-73.84366},"11357":{"lat":40.784453,"long":-73.80922},"11358":{"lat":40.760522,"long":-73.79612},"11359":{"lat":40.79278,"long":-73.776701},"11360":{"lat":40.780386,"long":-73.78005},"11361":{"lat":40.763177,"long":-73.77392},"11362":{"lat":40.759686,"long":-73.73322},"11363":{"lat":40.772636,"long":-73.74644},"11364":{"lat":40.746718,"long":-73.75994},"11365":{"lat":40.738983,"long":-73.79209},"11366":{"lat":40.726137,"long":-73.79502},"11367":{"lat":40.728614,"long":-73.82145},"11368":{"lat":40.747106,"long":-73.85838},"11369":{"lat":40.762854,"long":-73.87051},"11370":{"lat":40.763015,"long":-73.89052},"11372":{"lat":40.750146,"long":-73.88433},"11373":{"lat":40.736076,"long":-73.87804},"11374":{"lat":40.724945,"long":-73.8609},"11375":{"lat":40.720535,"long":-73.84582},"11377":{"lat":40.742869,"long":-73.90377},"11378":{"lat":40.724096,"long":-73.90271},"11379":{"lat":40.716028,"long":-73.87925},"11385":{"lat":40.703069,"long":-73.89285},"11411":{"lat":40.693538,"long":-73.73574},"11412":{"lat":40.697188,"long":-73.75948},"11413":{"lat":40.670138,"long":-73.75141},"11414":{"lat":40.658188,"long":-73.84321},"11415":{"lat":40.706903,"long":-73.82973},"11416":{"lat":40.683301,"long":-73.8503},"11417":{"lat":40.675534,"long":-73.84476},"11418":{"lat":40.698485,"long":-73.83365},"11419":{"lat":40.688688,"long":-73.82216},"11420":{"lat":40.673138,"long":-73.81443},"11421":{"lat":40.69087,"long":-73.85828},"11422":{"lat":40.662538,"long":-73.73514},"11423":{"lat":40.714261,"long":-73.76824},"11426":{"lat":40.732239,"long":-73.72108},"11427":{"lat":40.728235,"long":-73.74782},"11428":{"lat":40.719981,"long":-73.74127},"11429":{"lat":40.708833,"long":-73.73903},"11432":{"lat":40.714144,"long":-73.79324},"11433":{"lat":40.696538,"long":-73.78734},"11434":{"lat":40.674888,"long":-73.7727},"11435":{"lat":40.700068,"long":-73.80986},"11436":{"lat":40.674146,"long":-73.79687},"11691":{"lat":40.60002,"long":-73.75962},"11692":{"lat":40.592939,"long":-73.79568},"11693":{"lat":40.596959,"long":-73.81978},"11694":{"lat":40.57649,"long":-73.84721},"11695":{"lat":40.651378,"long":-73.870779},"11697":{"lat":40.560167,"long":-73.90891}}
 
-var SPREADSHEET_KEY = "1MxC6S6qP7_cCOZXcN6nwu-BWB8R9aWJN43WaGa6AE8k"; // Google spreadsheet source data key
+var SPREADSHEET_KEY = "15NRQOxkPJ6RFjIUBWRfiuIXDkQZLdd3Eu13NQbtHVAs"; // Test Google spreadsheet source data key
+//var SPREADSHEET_KEY = "1MxC6S6qP7_cCOZXcN6nwu-BWB8R9aWJN43WaGa6AE8k"; // Google spreadsheet source data key
 
 // Column aliases
 var COL_BOROUGH = 0;
@@ -341,7 +371,7 @@ function getDefaultDataView() {
     return new google.visualization.DataView(defaultData);
 }
 
-function getFilteredDataView() {
+function getFilteredDataView(allowMultipleBoroughs) {
     if (Object.keys(queryParams).length === 0 && window.location.hash.substring(1) == "") {
         return getDefaultDataView();
     }
@@ -349,7 +379,7 @@ function getFilteredDataView() {
     var view = new google.visualization.DataView(data);
 
     // Add a Zip column that's computed from the Address column
-    var calculateViewZip = function(dataTable, rowNum) { return getZip(dataTable.getValue(rowNum, COL_ADDRESS)); };
+    var calculateViewZip = function(dataTable, rowNum) { return Geo.getZip(dataTable.getValue(rowNum, COL_ADDRESS)); };
     view.setColumns([COL_BOROUGH,
                         COL_CATEGORY,
                         COL_NAME,
@@ -367,25 +397,26 @@ function getFilteredDataView() {
     }
 
     // DataView.getFilteredRows() doesn't support multi-values 'or-type' filters, so we'll have to filter manually
-    var filteredIndexes = getFilteredIndexes(view);
+    var filteredIndexes = getFilteredIndexes(view, allowMultipleBoroughs);
     view.setRows(filteredIndexes);
 
     return view;
 }
 
-function getFilteredIndexes(view) {
+function getFilteredIndexes(view, allowMultipleBoroughs) {
     var passingIndexes = [];
     for (var rowIndex=0; rowIndex < view.getNumberOfRows(); rowIndex++) {
-        if (passesFilter(view, rowIndex)) {
+        if (passesFilter(view, rowIndex, allowMultipleBoroughs)) {
             passingIndexes.push(rowIndex);
         }
     }
     return passingIndexes;
 }
 
-function passesFilter(view, rowIndex) {
+function passesFilter(view, rowIndex, allowMultipleBoroughs) {
     var passes = true;
-    passes = passes && applyFilter(view, rowIndex, COL_BOROUGH, queryParams.b);  // Borough
+        
+    passes = passes && applyFilter(view, rowIndex, COL_BOROUGH, queryParams.b, allowMultipleBoroughs);  // Borough
     passes = passes && applyFilter(view, rowIndex, COL_CATEGORY, queryParams.c); // Category
     passes = passes && applyFilterZip(view, rowIndex);                           // Zip
 
@@ -396,10 +427,17 @@ function passesFilter(view, rowIndex) {
     return passes;
 }
 
-function applyFilter(view, rowIndex, colIndex, acceptedValuesArray) {
-    if (!acceptedValuesArray) return true;
+function applyFilter(view, rowIndex, colIndex, acceptedValuesArray, allowMultipleValues) {
     var value = view.getValue(rowIndex, colIndex);
-    return $.inArray(value, acceptedValuesArray) != -1;
+
+    // Some views don't want records that contain multiple values like, "Brookyn, Manhattan", here we filter them out.
+    if (typeof allowMultipleValues == 'undefined') allowMultipleValues = true;    
+    var valueArray = Arrays.normalize([value]);
+    if (!allowMultipleValues && valueArray.length > 1) return false; // filter out multiple-value items
+
+    if (!acceptedValuesArray) return true;  // if there's no filter, let everything pass
+
+    return Arrays.shareOne(acceptedValuesArray, valueArray);
 }
 
 function applyFilterContains(view, rowIndex, colIndex, acceptedValuesArray) {
@@ -467,22 +505,22 @@ function containsWord(source, word) {
 }
 
 function getMapDataView() {
-    var view = getFilteredDataView();
+    var dontAllowMultipleBoroughValues = false; // we don't want to display pins for items that have multiple-boroughs attached to them
+    var view = getFilteredDataView(dontAllowMultipleBoroughValues);
     view.setColumns([COL_LAT, COL_LONG, {calc:renderCardFromViewRowMarkup, type:'string', label:'Text'} ]);
     return view;
 }
 
-
-
 </script>
+
 
 
 <!-- View-Controller Rendering Code -->
 <script>
 function render() {
-    // Render search select options based on data
-    renderSelect($('#borough'), data.getDistinctValues(0), queryParams.b);
-    renderSelect($('#category'), data.getDistinctValues(1), queryParams.c);
+    // Render search select options based on data    
+    renderSelect($('#borough'), Arrays.normalizeDistinctSort(data.getDistinctValues(0)), queryParams.b);
+    renderSelect($('#category'), Arrays.normalizeDistinctSort(data.getDistinctValues(1)), queryParams.c);
 
     renderZipCode();
     renderKeywords();
