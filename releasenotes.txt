@@ -1,6 +1,9 @@
 TODO
 - Support multiple categories
 
+v5.10.1
+- Bug - Duplicate categories in drop-down when using multiple category rows
+
 v5.10.0
 - Support multiple boroughs
 - Support multiple categories

@@ -251,7 +251,12 @@
         },
 
         distinct: function (a) {
-            return $.unique(a);
+            // Copy-pasted from http://stackoverflow.com/questions/9229645/remove-duplicates-from-javascript-array
+            var uniqueNames = [];
+            $.each(a, function (i, el) {
+                if ($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+            });
+            return uniqueNames;
         },
 
         normalizeDistinctSort: function (a) {
@@ -266,7 +271,6 @@
         }
     };
 </script>
-
 
 
 <!-- Initialization Script -->
